@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kokoro: Read along</title>
+    <meta name="manifest.default_title" content="Kokoro: Read along" />
+    <meta name="manifest.default_icon" content="{'16': 'kokoro-web.png', '32': 'kokoro-web.png'}" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section id="onboarding" class="onboarding hidden">
+        <h2 id="onboarding-title"></h2>
+        <p id="onboarding-body"></p>
+
+        <h3 id="onboarding-step-kokoro" class="onboarding-step"></h3>
+        <p class="onboarding-hint">
+          See the
+          <a id="kokoro-docs-link" href="#" target="_blank" rel="noopener noreferrer"
+            >kokoro-tts installation guide</a
+          >
+          for other install options and platform notes.
+        </p>
+        <pre><code id="kokoro-install-command"></code></pre>
+        <button id="copy-kokoro-btn" type="button" class="secondary">Copy kokoro commands</button>
+
+        <h3 id="onboarding-step-bridge" class="onboarding-step"></h3>
+        <pre><code id="setup-command"></code></pre>
+        <p id="onboarding-paths-hint" class="onboarding-hint"></p>
+        <div class="onboarding-actions">
+          <button id="copy-setup-btn" type="button">Copy bridge command</button>
+          <button id="retry-setup-btn" type="button">Test connection</button>
+          <button id="open-settings-btn" type="button" class="secondary">Open settings</button>
+        </div>
+      </section>
+
+      <div id="main-content" class="hidden">
+        <div id="read-along-empty" class="read-along-empty">
+          <p class="read-along-empty-hint">
+            Select text on a page and choose <strong>Read with Kokoro</strong>, or read the main
+            page content aloud.
+          </p>
+          <button id="read-page-btn" type="button" class="read-page-btn">Read page aloud</button>
+        </div>
+
+        <div id="read-along-search" class="read-along-search hidden">
+          <input
+            id="read-along-search-input"
+            type="search"
+            placeholder="Search in text..."
+            aria-label="Search in text"
+          />
+          <span
+            id="read-along-search-count"
+            class="read-along-search-count"
+            aria-live="polite"
+          ></span>
+          <button id="read-along-search-prev" type="button" aria-label="Previous match" disabled>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+          </button>
+          <button id="read-along-search-next" type="button" aria-label="Next match" disabled>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+
+        <div id="read-along-view" class="hidden" aria-live="polite"></div>
+
+        <div class="status-bar muted">
+          <p id="status" class="status" aria-live="polite">Ready</p>
+        </div>
+
+        <div class="transport">
+          <button id="play-btn" type="button">Play</button>
+          <button id="pause-btn" type="button">Pause</button>
+          <button id="stop-btn" type="button" disabled>Stop</button>
+        </div>
+      </div>
+    </main>
+
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

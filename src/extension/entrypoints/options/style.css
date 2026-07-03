@@ -1,0 +1,303 @@
+@import "../shared/theme.css";
+@import "../shared/status.css";
+
+:root {
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  line-height: 1.5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 20px 48px;
+  display: grid;
+  gap: 20px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.page-logo {
+  display: block;
+  border-radius: 16px;
+  flex-shrink: 0;
+  box-shadow: 0 8px 24px var(--shadow);
+}
+
+header h1 {
+  margin: 0 0 8px;
+}
+
+header p {
+  margin: 0;
+  color: var(--label);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  display: grid;
+  gap: 14px;
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.checkbox-field {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.checkbox-field input {
+  margin-top: 4px;
+  width: auto;
+}
+
+.checkbox-field span {
+  font-weight: 500;
+}
+
+.field span {
+  font-weight: 600;
+}
+
+input {
+  font: inherit;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: inherit;
+}
+
+input[type="range"] {
+  width: 100%;
+}
+
+.section-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+small {
+  color: var(--muted);
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 14px;
+  background: var(--btn-primary);
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--btn-primary-hover);
+}
+
+#test-btn {
+  background: var(--btn-secondary);
+}
+
+button.secondary {
+  background: var(--btn-secondary);
+}
+
+button.secondary:hover {
+  background: var(--btn-secondary);
+  filter: brightness(1.08);
+}
+
+button.recording {
+  background: var(--warning);
+}
+
+button.recording:hover {
+  background: var(--warning);
+  filter: brightness(1.05);
+}
+
+.shortcut-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-inset);
+}
+
+.shortcut-label {
+  font-weight: 600;
+}
+
+.shortcut-kbd {
+  display: inline-block;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.shortcut-actions {
+  flex-wrap: wrap;
+}
+
+.section-hint a {
+  color: var(--btn-primary);
+}
+
+.sub-settings {
+  display: grid;
+  gap: 8px;
+  padding: 12px 14px;
+  margin-left: 2px;
+  border-left: 2px solid var(--border);
+  border-radius: 0 8px 8px 0;
+  background: var(--surface-muted);
+}
+
+.sub-settings:has(input:disabled) {
+  opacity: 0.65;
+}
+
+.status {
+  margin: 0;
+  min-height: 1.2rem;
+  color: var(--label);
+}
+
+details.card {
+  display: block;
+  padding: 0;
+}
+
+details.card > summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 16px 20px;
+  list-style-position: outside;
+}
+
+details.card > summary:hover {
+  color: var(--btn-primary);
+}
+
+details.card[open] > summary {
+  padding-bottom: 0;
+}
+
+details.card:not([open]) > .advanced {
+  display: none;
+}
+
+details.card[open] > .advanced {
+  display: grid;
+  gap: 14px;
+  margin-top: 14px;
+  padding: 0 20px 20px;
+}
+
+.onboarding pre {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--surface-inset);
+  overflow-x: auto;
+}
+
+.onboarding-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.onboarding-hint a {
+  color: var(--link);
+}
+
+.onboarding-step {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.onboarding code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85rem;
+}
+
+#copy-setup-btn {
+  background: var(--btn-secondary);
+}
+
+#copy-kokoro-btn {
+  background: var(--btn-secondary);
+}
+
+pre {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--surface-muted);
+  overflow-x: auto;
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+ol {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--label);
+}
+
+.hidden {
+  display: none !important;
+}

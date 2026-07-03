@@ -1,0 +1,84 @@
+.read-along-view {
+  max-height: 220px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 10px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.read-along-view--sidebar {
+  flex: 1;
+  max-height: none;
+  min-height: 0;
+}
+
+.kokoro-read-chunk {
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.kokoro-read-chunk:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.kokoro-read-chunk--active {
+  background-color: rgba(255, 193, 7, 0.75);
+  outline: 1px solid rgba(255, 152, 0, 0.8);
+}
+
+@media (prefers-color-scheme: dark) {
+  .kokoro-read-chunk:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .kokoro-read-chunk--active {
+    background-color: rgba(255, 152, 0, 0.45);
+    outline: 1px solid rgba(255, 193, 7, 0.7);
+  }
+}
+
+.read-along-empty {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  text-align: center;
+}
+
+.read-along-empty-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.read-page-btn {
+  align-self: center;
+}
+
+.kokoro-search-match {
+  background-color: rgba(59, 130, 246, 0.35);
+  border-radius: 2px;
+  color: inherit;
+}
+
+.kokoro-search-match--current {
+  background-color: rgba(37, 99, 235, 0.55);
+  outline: 1px solid rgba(29, 78, 216, 0.85);
+}
+
+@media (prefers-color-scheme: dark) {
+  .kokoro-search-match {
+    background-color: rgba(96, 165, 250, 0.25);
+  }
+
+  .kokoro-search-match--current {
+    background-color: rgba(59, 130, 246, 0.5);
+    outline: 1px solid rgba(147, 197, 253, 0.8);
+  }
+}

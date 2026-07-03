@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kokoro-web"
+version = "0.1.0"
+description = "Native messaging bridge for the Kokoro Web browser extension"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+dependencies = ["python-dotenv"]
+authors = [{ name = "Ajay Tripathi" }]
+keywords = ["kokoro", "tts", "browser", "native-messaging"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/atb00ker/kokoro-web-addon"
+Repository = "https://github.com/atb00ker/kokoro-web-addon"
+Issues = "https://github.com/atb00ker/kokoro-web-addon/issues"
+
+[project.optional-dependencies]
+dev = ["ruff", "basedpyright"]
+
+[dependency-groups]
+dev = ["ruff", "basedpyright"]
+
+[project.scripts]
+kokoro-web-setup = "system.install:main"
+kokoro-web-host = "system.host:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["system*"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 80
+src = ["src"]
+exclude = [".venv", "node_modules", "*.egg-info"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.basedpyright]
+include = ["src/system"]
+exclude = [".venv", "node_modules", "**/__pycache__", "**/*.egg-info"]
+pythonVersion = "3.11"
+typeCheckingMode = "basic"
+reportImplicitStringConcatenation = "error"

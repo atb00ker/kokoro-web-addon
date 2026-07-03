@@ -1,0 +1,32 @@
+{
+  "name": "kokoro-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Browser extension for Kokoro Web via native messaging",
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "build": "wxt build && wxt build -b chrome",
+    "zip": "wxt zip && wxt zip -b chrome",
+    "postinstall": "wxt prepare",
+    "typecheck": "wxt prepare && tsc --noEmit",
+    "format": "prettier --write src",
+    "lint": "eslint src --fix && prettier --check src && npm run typecheck",
+    "test": "bun run test:unit && bun run test:mocked",
+    "test:unit": "bun test src/extension --path-ignore-patterns '**/session-manager.test.ts'",
+    "test:mocked": "bun test --isolate src/extension/lib/session-manager.test.ts src/extension/lib/synthesis/playback-pipeline.test.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.28.0",
+    "@types/bun": "^1.2.19",
+    "@types/node": "^22.15.21",
+    "dotenv": "^17.4.2",
+    "eslint": "^9.28.0",
+    "eslint-config-prettier": "^10.1.5",
+    "globals": "^16.2.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.33.1",
+    "wxt": "^0.20.7"
+  }
+}

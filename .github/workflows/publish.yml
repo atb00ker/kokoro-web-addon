@@ -1,0 +1,280 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag (e.g. v0.1.0)
+        required: true
+        type: string
+
+env:
+  RELEASE_TAG: ${{ github.event.inputs.tag }}
+
+jobs:
+  gate:
+    name: Authorize Publisher
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify publisher
+        if: github.actor != 'atb00ker'
+        run: |
+          echo "Only atb00ker may publish releases (actor: ${{ github.actor }})"
+          exit 1
+
+  build:
+    name: Build Artifacts
+    needs: gate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.RELEASE_TAG }}
+
+      - name: Verify version matches tag
+        run: |
+          TAG="${{ env.RELEASE_TAG }}"
+          VERSION="${TAG#v}"
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          PY_VERSION=$(grep '^version = ' pyproject.toml | head -1 | sed 's/version = "\(.*\)"/\1/')
+          if [ "$PKG_VERSION" != "$VERSION" ] || [ "$PY_VERSION" != "$VERSION" ]; then
+            echo "Tag $TAG expects version $VERSION"
+            echo "package.json: $PKG_VERSION"
+            echo "pyproject.toml: $PY_VERSION"
+            exit 1
+          fi
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Setup Python
+        run: uv python install 3.11
+
+      - name: Configure .env
+        env:
+          KOKORO_HOST_NAME: ${{ secrets.KOKORO_HOST_NAME }}
+          FIREFOX_EXTENSION_ID: ${{ secrets.FIREFOX_EXTENSION_ID }}
+          CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+          CHROME_MANIFEST_KEY: ${{ secrets.CHROME_MANIFEST_KEY }}
+        run: |
+          {
+            echo "KOKORO_HOST_NAME=${KOKORO_HOST_NAME}"
+            echo "FIREFOX_EXTENSION_ID=${FIREFOX_EXTENSION_ID}"
+            echo "CHROME_EXTENSION_ID=${CHROME_EXTENSION_ID}"
+            echo "CHROME_MANIFEST_KEY=${CHROME_MANIFEST_KEY}"
+          } > .env
+
+      - name: Install dependencies
+        run: |
+          bun install --frozen-lockfile
+          uv sync
+
+      - name: Lint
+        run: |
+          bunx eslint src
+          bunx prettier --check src
+          bun run typecheck
+          uv run ruff check src/system
+          uv run basedpyright src/system
+
+      - name: Test
+        run: |
+          bun run test
+          PYTHONPATH=src uv run python -m unittest discover -s src/system/tests -p 'test_*.py'
+
+      - name: Build extension zips
+        run: bun run zip
+
+      - name: Build Python packages
+        run: |
+          uv build
+          uvx twine check dist/*
+
+      - name: Verify GitHub release exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release view "$RELEASE_TAG"
+
+      - name: Prepare stable download names
+        run: |
+          cp .output/kokoro-web-*-chrome.zip kokoro-web-chrome.zip
+          cp .output/kokoro-web-*-firefox.zip kokoro-web-firefox.zip
+
+      - name: Upload release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "$RELEASE_TAG" \
+            .output/kokoro-web-*-firefox.zip \
+            .output/kokoro-web-*-sources.zip \
+            .output/kokoro-web-*-chrome.zip \
+            kokoro-web-chrome.zip \
+            kokoro-web-firefox.zip \
+            dist/*.whl \
+            dist/*.tar.gz \
+            --clobber
+
+      - name: Upload Python dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-dist
+          path: dist/
+          retention-days: 1
+
+      - name: Upload Firefox extension artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: extension-firefox
+          path: |
+            .output/kokoro-web-*-firefox.zip
+            .output/kokoro-web-*-sources.zip
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Upload Chrome extension artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: extension-chrome
+          path: .output/kokoro-web-*-chrome.zip
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 1
+
+  publish-pypi:
+    name: Publish to PyPI
+    needs: build
+    if: vars.ENABLE_PYPI_PUBLISH == 'true'
+    runs-on: ubuntu-latest
+    environment: PyPI
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Download Python dist
+        uses: actions/download-artifact@v4
+        with:
+          name: python-dist
+          path: dist/
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
+          skip-existing: true
+
+  publish-firefox:
+    name: Submit to Firefox Add-ons
+    needs: build
+    if: vars.ENABLE_FIREFOX_PUBLISH == 'true'
+    runs-on: ubuntu-latest
+    environment: Firefox
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Download Firefox extension
+        uses: actions/download-artifact@v4
+        with:
+          name: extension-firefox
+          path: .output/
+
+      - name: Submit to Firefox Add-ons
+        env:
+          FIREFOX_JWT_ISSUER: ${{ secrets.FIREFOX_JWT_ISSUER }}
+          FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
+          FIREFOX_EXTENSION_ID: ${{ secrets.FIREFOX_EXTENSION_ID }}
+          FIREFOX_CHANNEL: listed
+        run: |
+          FIREFOX_ZIP=$(ls .output/kokoro-web-*-firefox.zip)
+          FIREFOX_SOURCES_ZIP=$(ls .output/kokoro-web-*-sources.zip)
+          bunx wxt submit \
+            --firefox-zip "$FIREFOX_ZIP" \
+            --firefox-sources-zip "$FIREFOX_SOURCES_ZIP"
+
+  publish-chrome:
+    name: Submit to Chrome Web Store
+    needs: build
+    if: vars.ENABLE_CHROME_PUBLISH == 'true'
+    runs-on: ubuntu-latest
+    environment: Chromium
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Download Chrome extension
+        uses: actions/download-artifact@v4
+        with:
+          name: extension-chrome
+          path: .output/
+
+      - name: Submit to Chrome Web Store
+        env:
+          CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+          CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+          CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+          CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+          CHROME_PUBLISH_TARGET: default
+        run: |
+          CHROME_ZIP=$(ls .output/kokoro-web-*-chrome.zip)
+          bunx wxt submit --chrome-zip "$CHROME_ZIP"
+
+  publish-summary:
+    name: Publish Summary
+    needs: [gate, build, publish-pypi, publish-firefox, publish-chrome]
+    if: always() && needs.gate.result == 'success'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Summary
+        env:
+          ENABLE_PYPI: ${{ vars.ENABLE_PYPI_PUBLISH }}
+          ENABLE_FIREFOX: ${{ vars.ENABLE_FIREFOX_PUBLISH }}
+          ENABLE_CHROME: ${{ vars.ENABLE_CHROME_PUBLISH }}
+          PYPI_RESULT: ${{ needs.publish-pypi.result }}
+          FIREFOX_RESULT: ${{ needs.publish-firefox.result }}
+          CHROME_RESULT: ${{ needs.publish-chrome.result }}
+        run: |
+          echo "## Publish summary"
+
+          if [ "$ENABLE_PYPI" = "true" ]; then
+            echo "PyPI:     $PYPI_RESULT"
+          else
+            echo "PyPI:     skipped (set repository variable ENABLE_PYPI_PUBLISH=true)"
+          fi
+
+          if [ "$ENABLE_FIREFOX" = "true" ]; then
+            echo "Firefox:  $FIREFOX_RESULT"
+          else
+            echo "Firefox:  skipped (set repository variable ENABLE_FIREFOX_PUBLISH=true)"
+          fi
+
+          if [ "$ENABLE_CHROME" = "true" ]; then
+            echo "Chrome:   $CHROME_RESULT"
+          else
+            echo "Chrome:   skipped (set repository variable ENABLE_CHROME_PUBLISH=true)"
+          fi

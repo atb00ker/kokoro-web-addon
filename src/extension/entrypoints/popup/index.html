@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kokoro Web</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="header">
+        <div class="brand">
+          <img src="/kokoro-web.png" alt="" class="brand-logo" width="28" height="28" />
+          <h1>Kokoro Web</h1>
+        </div>
+        <div class="header-links">
+          <a id="open-options" href="#">Settings</a>
+        </div>
+      </header>
+
+      <section id="onboarding" class="onboarding hidden">
+        <h2 id="onboarding-title"></h2>
+        <p id="onboarding-body"></p>
+
+        <h3 id="onboarding-step-kokoro" class="onboarding-step"></h3>
+        <p class="onboarding-hint">
+          See the
+          <a id="kokoro-docs-link" href="#" target="_blank" rel="noopener noreferrer"
+            >kokoro-tts installation guide</a
+          >
+          for other install options and platform notes.
+        </p>
+        <pre><code id="kokoro-install-command"></code></pre>
+        <button id="copy-kokoro-btn" type="button" class="secondary">Copy kokoro commands</button>
+
+        <h3 id="onboarding-step-bridge" class="onboarding-step"></h3>
+        <pre><code id="setup-command"></code></pre>
+        <p id="onboarding-paths-hint" class="onboarding-hint"></p>
+        <div class="onboarding-actions">
+          <button id="copy-setup-btn" type="button">Copy bridge command</button>
+          <button id="retry-setup-btn" type="button">Test connection</button>
+          <button id="open-settings-btn" type="button" class="secondary">Open settings</button>
+        </div>
+      </section>
+
+      <div id="main-content">
+        <label class="field" id="text-field">
+          <span>Text</span>
+          <textarea id="text-input" rows="6" placeholder="Paste text to read aloud..."></textarea>
+          <button id="read-page-btn" type="button" class="secondary read-page-btn">
+            Read page
+          </button>
+          <div id="read-along-view" class="hidden" aria-live="polite"></div>
+        </label>
+
+        <div class="controls-grid">
+          <label class="field">
+            <span>Language</span>
+            <select id="lang-select"></select>
+          </label>
+
+          <label class="field">
+            <span>Voice</span>
+            <select id="voice-select"></select>
+          </label>
+
+          <label class="field">
+            <span>Speed <strong id="speed-value">1.0</strong>x</span>
+            <input id="speed-range" type="range" min="0.5" max="2" step="0.1" value="1" />
+          </label>
+        </div>
+
+        <div class="transport">
+          <button id="play-btn" type="button">Play</button>
+          <button id="pause-btn" type="button">Pause</button>
+          <button id="stop-btn" type="button" disabled>Stop</button>
+          <button
+            id="pin-sidebar-btn"
+            type="button"
+            class="pin-sidebar-btn"
+            aria-label="Open read-along sidebar"
+            title="Open read-along sidebar"
+          >
+            <svg
+              class="pin-sidebar-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+              <line x1="9" x2="9" y1="3" y2="21" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="status-bar muted">
+          <p id="status" class="status" aria-live="polite"></p>
+          <p class="pin-sidebar-hint"></p>
+        </div>
+      </div>
+    </main>
+
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

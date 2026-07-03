@@ -1,0 +1,10 @@
+# Prettier only runs on src/ (see package.json). Ignore build artifacts and deps.
+node_modules/
+.venv/
+.output/
+.wxt/
+dist/
+build/
+*.egg-info/
+bun.lock
+uv.lock

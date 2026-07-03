@@ -1,0 +1,39 @@
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 1.2rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.status-bar.muted {
+  color: var(--muted);
+}
+
+.status {
+  margin: 0;
+  min-width: 0;
+  flex: 1;
+}
+
+.status.error {
+  color: var(--error);
+}
+
+.status.success {
+  color: var(--success);
+}
+
+.status.warning {
+  color: var(--warning);
+}
+
+.pin-sidebar-hint {
+  margin: 0;
+  text-align: right;
+  flex-shrink: 0;
+  white-space: nowrap;
+}

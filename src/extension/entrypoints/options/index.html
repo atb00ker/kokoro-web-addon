@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kokoro Web Settings</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="page-header">
+        <img src="/kokoro-web.png" alt="Kokoro Web" class="page-logo" width="96" height="96" />
+        <div>
+          <h1>Kokoro Web Settings</h1>
+          <p>Connect this extension to kokoro-tts on your computer.</p>
+        </div>
+      </header>
+
+      <section id="onboarding" class="card onboarding">
+        <h2 id="onboarding-title"></h2>
+        <p id="onboarding-body"></p>
+
+        <h3 id="onboarding-step-kokoro" class="onboarding-step"></h3>
+        <p class="onboarding-hint">
+          See the
+          <a id="kokoro-docs-link" href="#" target="_blank" rel="noopener noreferrer"
+            >kokoro-tts installation guide</a
+          >
+          for other install options and platform notes.
+        </p>
+        <pre><code id="kokoro-install-command"></code></pre>
+        <button id="copy-kokoro-btn" type="button" class="secondary">Copy kokoro commands</button>
+
+        <h3 id="onboarding-step-bridge" class="onboarding-step"></h3>
+        <pre><code id="setup-command"></code></pre>
+        <p id="onboarding-paths-hint" class="onboarding-hint"></p>
+        <div class="actions">
+          <button id="copy-setup-btn" type="button">Copy bridge command</button>
+          <button id="test-btn" type="button">Test connection</button>
+        </div>
+        <p id="status" class="status">Ready</p>
+      </section>
+
+      <details id="playback-settings" class="card" open>
+        <summary>Playback defaults</summary>
+        <div class="advanced">
+          <p class="section-hint">
+            These become the default language, voice, and speed whenever you open the extension.
+          </p>
+
+          <label class="field">
+            <span>Language</span>
+            <select id="lang-select"></select>
+          </label>
+
+          <label class="field">
+            <span>Voice</span>
+            <select id="voice-select"></select>
+          </label>
+
+          <label class="field">
+            <span>Speed <strong id="speed-value">1.0</strong>x</span>
+            <input id="speed-range" type="range" min="0.5" max="2" step="0.1" value="1" />
+          </label>
+
+          <button id="save-playback-btn" type="button">Save defaults</button>
+        </div>
+      </details>
+
+      <details id="keyboard-shortcuts" class="card">
+        <summary>Keyboard shortcuts</summary>
+        <div class="advanced">
+          <p id="shortcut-hint" class="section-hint">
+            Toggle the read-along sidebar from anywhere in the browser. Some key combinations may be
+            reserved by the browser or your operating system.
+          </p>
+
+          <div class="shortcut-row">
+            <span class="shortcut-label">Toggle read-along sidebar</span>
+            <kbd id="sidebar-shortcut-display" class="shortcut-kbd">—</kbd>
+          </div>
+
+          <div id="shortcut-customize-actions" class="actions shortcut-actions">
+            <button id="record-shortcut-btn" type="button">Record shortcut</button>
+            <button id="reset-shortcut-btn" type="button" class="secondary">
+              Reset to default
+            </button>
+            <button id="clear-shortcut-btn" type="button" class="secondary">Clear shortcut</button>
+          </div>
+
+          <p class="section-hint">
+            <a id="firefox-shortcuts-link" href="#" rel="noopener">
+              Manage extension shortcuts in Firefox
+            </a>
+            <a id="chrome-shortcuts-link" class="hidden" href="#" rel="noopener">
+              Manage extension shortcuts in Chrome
+            </a>
+          </p>
+        </div>
+      </details>
+
+      <details id="advanced-settings" class="card">
+        <summary>Advanced settings</summary>
+        <div class="advanced">
+          <label class="field">
+            <span>Kokoro binary path</span>
+            <input id="kokoro-path" type="text" placeholder="kokoro-tts" />
+            <small id="kokoro-suggestions"></small>
+          </label>
+
+          <label class="field">
+            <span>Model directory</span>
+            <input id="model-dir" type="text" placeholder="~/.kokoro" />
+            <small>Must contain at least one .onnx model file and one .bin voices file</small>
+          </label>
+
+          <p class="section-hint">
+            When using high playback speeds, the very first word of your text may sometimes get
+            partially or completely cut off due to audio clipping. To avoid losing the beginning of
+            your important content, you can add a throwaway word here—this word will be spoken
+            first, absorbing any clipping, so that your actual text is heard clearly from the start.
+            For example, if you enter <strong>work</strong>, the system will say "work" before your
+            actual text begins. If the first word is still clipped, try using a longer word like
+            "elephant" as the prefix.
+          </p>
+          <label class="field">
+            <span>Leading text</span>
+            <input id="synthesis-prefix" type="text" placeholder="e.g. work" />
+          </label>
+
+          <button id="save-btn" type="button">Save settings</button>
+        </div>
+      </details>
+    </main>
+
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

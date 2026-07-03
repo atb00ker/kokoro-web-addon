@@ -1,0 +1,116 @@
+:root {
+  color-scheme: light;
+  --bg: #f9fafb;
+  --text: #111827;
+  --surface: #ffffff;
+  --surface-muted: #f3f4f6;
+  --surface-inset: #e5e7eb;
+  --border: #d1d5db;
+  --border-strong: #9ca3af;
+  --label: #374151;
+  --muted: #6b7280;
+  --link: #2563eb;
+  --btn-primary: #2563eb;
+  --btn-primary-hover: #1d4ed8;
+  --btn-secondary: #64748b;
+  --btn-pause: #9ca3af;
+  --btn-stop: #dc2626;
+  --error: #dc2626;
+  --success: #16a34a;
+  --warning: #ca8a04;
+  --shadow: rgb(0 0 0 / 10%);
+  --range-track: #d1d5db;
+  --range-thumb: #2563eb;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #111827;
+    --text: #f9fafb;
+    --surface: #1f2937;
+    --surface-muted: #1f2937;
+    --surface-inset: #0f172a;
+    --border: #374151;
+    --border-strong: #4b5563;
+    --label: #d1d5db;
+    --muted: #9ca3af;
+    --link: #93c5fd;
+    --btn-primary: #2563eb;
+    --btn-primary-hover: #1d4ed8;
+    --btn-secondary: #334155;
+    --btn-pause: #4b5563;
+    --btn-stop: #b91c1c;
+    --error: #fca5a5;
+    --success: #86efac;
+    --warning: #fcd34d;
+    --shadow: rgb(0 0 0 / 35%);
+    --range-track: #374151;
+    --range-thumb: #60a5fa;
+  }
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+textarea,
+select,
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: inherit;
+  padding: 8px 10px;
+  font: inherit;
+}
+
+input[type="number"]:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+input[type="range"] {
+  width: 100%;
+  margin: 0;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--range-track);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: -5px;
+  border: none;
+  border-radius: 50%;
+  background: var(--range-thumb);
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--range-track);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: none;
+  border-radius: 50%;
+  background: var(--range-thumb);
+  cursor: pointer;
+}
