@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="src/assets/kokoro-web.png" alt="Kokoro Web" width="128" />
+<img src="src/assets/icon/kokoro-web.png" alt="Kokoro Web" width="128" />
 
 # Kokoro Web
 
@@ -9,7 +9,7 @@
 <!-- Install Buttons -->
 
 [![Install for Chrome](https://img.shields.io/badge/Install%20for%20Chrome-4285F4?logo=googlechrome&logoColor=white&style=for-the-badge)](https://github.com/atb00ker/kokoro-web-addon/releases/latest)
-[![Install for Firefox](https://img.shields.io/badge/Install%20for%20Firefox-FF7139?logo=firefox&logoColor=white&style=for-the-badge)](https://addons.mozilla.org/firefox/addon/kokoro-tts/)
+[![Install for Firefox](https://img.shields.io/badge/Install%20for%20Firefox-FF7139?logo=firefox&logoColor=white&style=for-the-badge)](https://addons.mozilla.org/en-US/firefox/addon/kokoro-web/)
 
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white&style=flat-square)](https://www.python.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white&style=flat-square)](https://www.typescriptlang.org/)
@@ -48,7 +48,7 @@ See our [Privacy Policy](docs/PRIVACY.md) — no cloud, no analytics, no data se
 
 ### Browser Store
 
-Install from **[Firefox Add-ons](https://addons.mozilla.org/firefox/addon/kokoro-tts/)** or the **[Chrome release](https://github.com/atb00ker/kokoro-web-addon/releases/latest)** (use the badges at the top), restart your browser, and open the extension.
+Install from **[Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/kokoro-web/)** or the **[Chrome release](https://github.com/atb00ker/kokoro-web-addon/releases/latest)** (use the badges at the top), restart your browser, and open the extension.
 
 ### Direct Install
 
@@ -100,7 +100,7 @@ uv run kokoro-web-setup
 
 ### Step 3 — Install the extension
 
-Install from **[Firefox Add-ons](https://addons.mozilla.org/firefox/addon/kokoro-tts/)** or the **[Chrome release](https://github.com/atb00ker/kokoro-web-addon/releases/latest)** (use the badges at the top), restart your browser, and open the extension.
+Install from **[Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/kokoro-web/)** or the **[Chrome release](https://github.com/atb00ker/kokoro-web-addon/releases/latest)** (use the badges at the top), restart your browser, and open the extension.
 
 > The first time you open it, click **Test connection**. If setup succeeded, you can paste text and press **Play**.
 

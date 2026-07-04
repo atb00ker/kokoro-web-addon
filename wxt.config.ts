@@ -19,7 +19,13 @@ const CHROME_MANIFEST_KEY = envOrDefault(
   DEFAULT_CHROME_MANIFEST_KEY,
 );
 
-const ICON = "kokoro-web.png";
+const ICONS = {
+  16: "icon/16.png",
+  32: "icon/32.png",
+  48: "icon/48.png",
+  96: "icon/96.png",
+  128: "icon/128.png",
+} as const;
 
 export default defineConfig({
   browser: "firefox",
@@ -39,18 +45,12 @@ export default defineConfig({
       "tabs",
       ...(browser === "chrome" ? (["offscreen", "sidePanel"] as const) : []),
     ],
-    icons: {
-      16: ICON,
-      32: ICON,
-      48: ICON,
-      96: ICON,
-      128: ICON,
-    },
+    icons: ICONS,
     action: {
       default_icon: {
-        16: ICON,
-        32: ICON,
-        48: ICON,
+        16: ICONS[16],
+        32: ICONS[32],
+        48: ICONS[48],
       },
       default_title: "Kokoro Web",
     },
@@ -68,10 +68,13 @@ export default defineConfig({
           browser_specific_settings: {
             gecko: {
               id: FIREFOX_EXTENSION_ID,
-              strict_min_version: "109.0",
+              strict_min_version: "140.0",
               data_collection_permissions: {
                 required: ["websiteContent"],
               },
+            },
+            gecko_android: {
+              strict_min_version: "142.0",
             },
           },
         }

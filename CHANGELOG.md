@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-07-05
+
+### Changed
+
+- Updated Node and Python dev dependencies
+
+### Fixed
+
+- Firefox Add-ons validation warnings (manifest icons, HTML `lang`/`viewport`, sidebar shortcut keys)
+
 ## [0.1.0] - 2026-07-04
 
 First public release. Kokoro Web is a browser extension and native messaging bridge for [kokoro-tts](https://github.com/nazdridoy/kokoro-tts). Synthesis runs locally on your machine; nothing is sent to the cloud.
@@ -44,4 +54,5 @@ First public release. Kokoro Web is a browser extension and native messaging bri
 - End-user [README](README.md) with install and troubleshooting
 - [Developer guide](docs/DEV.md), [setup guide](docs/SETUP.md), and [privacy policy](docs/PRIVACY.md)
 
+[0.1.1]: https://github.com/atb00ker/kokoro-web-addon/releases/tag/v0.1.1
 [0.1.0]: https://github.com/atb00ker/kokoro-web-addon/releases/tag/v0.1.0

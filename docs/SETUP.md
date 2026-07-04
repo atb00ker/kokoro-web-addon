@@ -80,11 +80,12 @@ Trusted publishing is recommended — see [`.local/FIRST-RELEASE.md`](../.local/
 
 ### `Firefox`
 
-| Secret                 | Description                                                                          |
-| ---------------------- | ------------------------------------------------------------------------------------ |
-| `FIREFOX_JWT_ISSUER`   | JWT issuer from [AMO API keys](https://addons.mozilla.org/developers/addon/api/key/) |
-| `FIREFOX_JWT_SECRET`   | JWT secret from the same page                                                        |
-| `FIREFOX_EXTENSION_ID` | Same value as the repository secret                                                  |
+| Secret               | Description                                                                          |
+| -------------------- | ------------------------------------------------------------------------------------ |
+| `FIREFOX_JWT_ISSUER` | JWT issuer from [AMO API keys](https://addons.mozilla.org/developers/addon/api/key/) |
+| `FIREFOX_JWT_SECRET` | JWT secret from the same page                                                        |
+
+`FIREFOX_EXTENSION_ID` lives in **repository secrets** only — the `publish-firefox` job inherits it automatically; do not duplicate it in this environment.
 
 Generate values locally with `npx wxt submit init` — copy from `.env.submit` into `.env` and GitHub. Do not commit `.env.submit`.
 

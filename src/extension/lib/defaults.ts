@@ -76,17 +76,18 @@ export const DEFAULT_SYNTHESIS_PREFIX = "";
 
 export const OPEN_READ_ALONG_SIDEBAR_COMMAND = "open-read-along-sidebar";
 
-const DEFAULT_OPEN_SIDEBAR_SHORTCUT = "Ctrl+Shift+K";
+const DEFAULT_CHROME_OPEN_SIDEBAR_SHORTCUT = "Ctrl+Shift+K";
+const DEFAULT_FIREFOX_OPEN_SIDEBAR_SHORTCUT = "Alt+Shift+K";
 
 export const MANIFEST_FIREFOX_SIDEBAR_SHORTCUT_KEYS = {
-  default: DEFAULT_OPEN_SIDEBAR_SHORTCUT,
-  mac: DEFAULT_OPEN_SIDEBAR_SHORTCUT,
+  default: DEFAULT_FIREFOX_OPEN_SIDEBAR_SHORTCUT,
+  mac: DEFAULT_FIREFOX_OPEN_SIDEBAR_SHORTCUT,
 } as const;
 
 export const MANIFEST_CHROME_SIDEBAR_SHORTCUT_KEYS = {
-  default: DEFAULT_OPEN_SIDEBAR_SHORTCUT,
-  linux: DEFAULT_OPEN_SIDEBAR_SHORTCUT,
-  windows: DEFAULT_OPEN_SIDEBAR_SHORTCUT,
+  default: DEFAULT_CHROME_OPEN_SIDEBAR_SHORTCUT,
+  linux: DEFAULT_CHROME_OPEN_SIDEBAR_SHORTCUT,
+  windows: DEFAULT_CHROME_OPEN_SIDEBAR_SHORTCUT,
   mac: "Command+Shift+K",
 } as const;
 
@@ -100,5 +101,7 @@ export function isChromeExtensionRuntime(): boolean {
 }
 
 export function getDefaultOpenSidebarShortcut(): string {
-  return DEFAULT_OPEN_SIDEBAR_SHORTCUT;
+  return isChromeExtensionRuntime()
+    ? DEFAULT_CHROME_OPEN_SIDEBAR_SHORTCUT
+    : DEFAULT_FIREFOX_OPEN_SIDEBAR_SHORTCUT;
 }

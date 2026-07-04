@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "kokoro-web"
-version = "0.1.0"
+version = "0.1.1"
 description = "Native messaging bridge for the Kokoro Web browser extension"
 readme = "README.md"
 license = { text = "MIT" }
@@ -22,6 +22,7 @@ classifiers = [
 Homepage = "https://github.com/atb00ker/kokoro-web-addon"
 Repository = "https://github.com/atb00ker/kokoro-web-addon"
 Issues = "https://github.com/atb00ker/kokoro-web-addon/issues"
+"Firefox Add-ons" = "https://addons.mozilla.org/en-US/firefox/addon/kokoro-web/"
 
 [project.optional-dependencies]
 dev = ["ruff", "basedpyright"]
