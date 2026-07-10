@@ -98,18 +98,16 @@ Releases are **manual only**: you create a GitHub Release first, then run the [P
 
 ### One-time setup
 
-See [SETUP.md](SETUP.md) for GitHub environments, secrets, `.env` configuration, and publish enable flags.
+See [SETUP.md](SETUP.md) for GitHub environments, secrets, `.env` configuration, publish enable flags, and first-time store/PyPI setup.
 
-First-time store setup (AMO listing, PyPI trusted publisher) is documented in [`.local/FIRST-RELEASE.md`](../.local/FIRST-RELEASE.md).
+### Release scenarios
 
-### When do I need the store playbooks?
-
-| Situation                                | Doc                                                                                                               |
-| ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| Routine `vX.Y.Z` tag + Publish workflow  | This section only — CI uploads to AMO                                                                             |
-| First AMO listing                        | [`.local/FIRST-RELEASE.md`](../.local/FIRST-RELEASE.md) + [`.local/FIREFOX-ADDON.md`](../.local/FIREFOX-ADDON.md) |
-| Refresh store description or screenshots | [`.local/FIREFOX-ADDON.md`](../.local/FIREFOX-ADDON.md) → listing metadata                                        |
-| Add or change manifest permissions       | Store playbooks + update [PRIVACY.md](PRIVACY.md)                                                                 |
+| Situation                                | Doc                                                                 |
+| ---------------------------------------- | ------------------------------------------------------------------- |
+| Routine `vX.Y.Z` tag + Publish workflow  | This section only — CI uploads to AMO                               |
+| First AMO listing                        | [SETUP.md#first-release](SETUP.md#first-release)                    |
+| Refresh store description or screenshots | [AMO Developer Hub](https://addons.mozilla.org/developers/) + [SETUP.md#firefox](SETUP.md#firefox) |
+| Add or change manifest permissions       | [SETUP.md](SETUP.md) + update [PRIVACY.md](PRIVACY.md)              |
 
 ### Per-release steps
 

@@ -8,14 +8,12 @@ One-time configuration for maintainers who build releases or publish to stores. 
 | ---- | ---- |
 | Local `.env`, GitHub secrets, CI environments | This file ([SETUP.md](SETUP.md)) |
 | Day-to-day dev, build, lint, per-release workflow | [DEV.md](DEV.md) |
-| **First ever** release (v0.1.0): AMO, PyPI, CI | [`.local/FIRST-RELEASE.md`](../.local/FIRST-RELEASE.md) |
-| **First AMO listing** — copy, screenshots, reviewer notes | [`.local/FIREFOX-ADDON.md`](../.local/FIREFOX-ADDON.md) |
-| Update store description or screenshots | [`.local/FIREFOX-ADDON.md`](../.local/FIREFOX-ADDON.md) → listing metadata |
-| Add manifest permission | Store playbooks (permissions + compliance) + update [PRIVACY.md](PRIVACY.md) |
+| **First ever** release (v0.1.0): AMO, PyPI, CI | [SETUP.md#first-release](#first-release) |
+| **First AMO listing** — copy, screenshots, reviewer notes | [SETUP.md#firefox](#firefox) + [PRIVACY.md](PRIVACY.md) |
+| Update store description or screenshots | [SETUP.md#firefox](#firefox) + [PRIVACY.md](PRIVACY.md) |
+| Add manifest permission | [SETUP.md](SETUP.md) + update [PRIVACY.md](PRIVACY.md) |
 | Privacy policy (users / stores) | [PRIVACY.md](PRIVACY.md) |
 | Routine `vX.Y.Z` tag + workflow | [DEV.md#releasing](DEV.md#releasing) only |
-
-Store playbooks live in `.local/` (gitignored). Routine version bumps do **not** need them — CI handles store uploads after the first listing.
 
 ---
 
@@ -76,7 +74,7 @@ Create environments under **Settings → Environments** for each publish target 
 | ---------------- | -------- | ------------------------------------------------ |
 | `PYPI_API_TOKEN` | Optional | Only if not using PyPI trusted publishing (OIDC) |
 
-Trusted publishing is recommended — see [`.local/FIRST-RELEASE.md`](../.local/FIRST-RELEASE.md#phase-3--pypi).
+Trusted publishing is recommended — see [PyPI trusted publishers](https://docs.pypi.org/trusted-publishers/).
 
 ### `Firefox`
 
@@ -89,6 +87,8 @@ Trusted publishing is recommended — see [`.local/FIRST-RELEASE.md`](../.local/
 
 Generate values locally with `npx wxt submit init` — copy from `.env.submit` into `.env` and GitHub. Do not commit `.env.submit`.
 
+For the first AMO listing, prepare copy, screenshots, and reviewer notes in the [AMO Developer Hub](https://addons.mozilla.org/developers/) submission UI. Keep [PRIVACY.md](PRIVACY.md) in sync when permissions change.
+
 ### `Chromium`
 
 | Secret                 | Description                         |
@@ -98,7 +98,7 @@ Generate values locally with `npx wxt submit init` — copy from `.env.submit` i
 | `CHROME_REFRESH_TOKEN` | OAuth refresh token                 |
 | `CHROME_EXTENSION_ID`  | Same value as the repository secret |
 
-Set up credentials with [chrome-webstore-upload-keys](https://github.com/fregante/chrome-webstore-upload-keys) or `npx wxt submit init`. Only needed when you decide to publish on CWS — see [`.local/CHROME-ADDON.md`](../.local/CHROME-ADDON.md).
+Set up credentials with [chrome-webstore-upload-keys](https://github.com/fregante/chrome-webstore-upload-keys) or `npx wxt submit init`. Only needed when you decide to publish on CWS.
 
 ---
 
@@ -127,6 +127,9 @@ On each environment you can add:
 
 ## First release
 
-After completing the steps above, follow [`.local/FIRST-RELEASE.md`](../.local/FIRST-RELEASE.md) for the full v0.1.0 walkthrough (manual AMO upload, optional PyPI, Firefox CI dry-runs).
+After completing the steps above:
 
-Per-release workflow (tag, GitHub Release, run Actions) is in [DEV.md#releasing](DEV.md#releasing).
+1. **Firefox (first listing):** create the add-on on the [AMO Developer Hub](https://addons.mozilla.org/developers/), upload the zip manually for v0.1.0, set `FIREFOX_EXTENSION_ID`, add JWT secrets to the `Firefox` environment, then enable `ENABLE_FIREFOX_PUBLISH` for CI updates.
+2. **PyPI (optional):** configure [trusted publishing](https://docs.pypi.org/trusted-publishers/) for this GitHub repo, then enable `ENABLE_PYPI_PUBLISH`.
+3. **Dry-run locally (optional):** `npx wxt submit init` → copy credentials to `.env` / GitHub; test with `wxt submit` before enabling CI publish flags.
+4. Routine releases: [DEV.md#releasing](DEV.md#releasing).

@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="src/assets/icon/kokoro-web.png" alt="Kokoro Web" width="128" />
+<img src="https://raw.githubusercontent.com/atb00ker/kokoro-web-addon/main/src/assets/icon/kokoro-web.png" alt="Kokoro Web" width="128" />
 
 # Kokoro Web
 
@@ -38,7 +38,7 @@ This codebase has been tested on **Linux (Debian)** with **Chromium** and **Fire
 - **Flexible setup** — works with your existing `kokoro-tts` install and model files
 
 <p align="center">
-  <img src="docs/screenshot2.png" alt="Read with Kokoro in the context menu and the read-along sidebar on a Wikipedia page" width="900" />
+  <img src="https://raw.githubusercontent.com/atb00ker/kokoro-web-addon/main/docs/feature-page.png" alt="Read with Kokoro in the context menu and the read-along sidebar on a Wikipedia page" width="900" />
 </p>
 <p align="center"><em>Select text → <strong>Read with Kokoro</strong>, or open the read-along sidebar to read the full page.</em></p>
 
